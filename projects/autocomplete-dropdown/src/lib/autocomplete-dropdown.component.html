@@ -1,3 +1,30 @@
-<p>
-  autocomplete-dropdown works!
-</p>
+<mat-form-field class="form-field" [formGroup]="viewFormGroup" [floatLabel]="floatLabel">
+
+    <mat-label>{{placeholder}}</mat-label>
+    <input #input type="text" matInput [matAutocomplete]="autoCompleteInput" [formControlName]="controlId" />
+
+    <button mat-icon-button matSuffix class="clear-selections" *ngIf="control.value.length > 0"
+        (click)="clearControl()">
+        <mat-icon>close</mat-icon>
+    </button>
+
+    <mat-autocomplete #autoCompleteInput="matAutocomplete" [displayWith]="autocompleteDisplay"
+        (optionSelected)="onOptionSelected($event)">
+        <mat-option *ngFor="let option of options$ | async" [value]="option" class="option"
+            [class.selected]="option.isSelected">
+            <mat-icon *ngIf="!option.isSelected">check_box_outline_blank</mat-icon>
+            <mat-icon *ngIf="option.isSelected">check_box</mat-icon>
+            {{ option.viewValue }}
+        </mat-option>
+    </mat-autocomplete>
+
+    <mat-hint align="end" *ngIf="control.value.length > 0">
+        {{control.value[0].viewValue}}
+        <span *ngIf="control.value.length > 1"> +{{control.value.length - 1}}
+            {{control.value.length > 2 ? 'others' : 'other'}}</span>
+    </mat-hint>
+
+    <mat-error *ngIf="!formGroup.controls[controlId].valid">
+        {{formGroup.controls[controlId].errors}}
+    </mat-error>
+</mat-form-field>
