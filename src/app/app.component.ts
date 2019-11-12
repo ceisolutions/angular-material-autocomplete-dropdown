@@ -38,6 +38,11 @@ export class AppComponent {
       value: 'Mike Oles',
       viewValue: 'Mike O.',
       isSelected: false
+    },
+    {
+      value: 'Alec Trievel',
+      viewValue: 'Alec T.',
+      isSelected: false
     }
-  ]
+  ];
 }

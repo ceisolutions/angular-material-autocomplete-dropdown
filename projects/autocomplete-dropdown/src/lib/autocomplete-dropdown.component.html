@@ -1,7 +1,7 @@
-<mat-form-field class="form-field" [formGroup]="viewFormGroup" [floatLabel]="floatLabel">
+<mat-form-field class="form-field" [floatLabel]="floatLabel">
 
     <mat-label>{{placeholder}}</mat-label>
-    <input #input type="text" matInput [matAutocomplete]="autoCompleteInput" [formControlName]="controlId" />
+    <input #input type="text" matInput [matAutocomplete]="autoCompleteInput" [formControl]="viewControl" />
 
     <button mat-icon-button matSuffix class="clear-selections" *ngIf="control.value.length > 0"
         (click)="clearControl()">
@@ -24,7 +24,7 @@
             {{control.value.length > 2 ? 'others' : 'other'}}</span>
     </mat-hint>
 
-    <mat-error *ngIf="!formGroup.controls[controlId].valid">
-        {{formGroup.controls[controlId].errors}}
+    <mat-error *ngIf="!control.valid">
+        {{viewControl.errors}}
     </mat-error>
 </mat-form-field>

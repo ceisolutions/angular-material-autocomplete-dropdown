@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { SelectListItem } from './select-list-item';
-import { FormGroup, AbstractControl, FormControl } from '@angular/forms';
+import { AbstractControl, FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
@@ -11,39 +11,33 @@ import { of, Observable } from 'rxjs';
 })
 export class AutocompleteDropdownComponent implements OnInit {
   @ViewChild('input', { static: false, read: MatAutocompleteTrigger }) trigger: MatAutocompleteTrigger;
-  @Input() formGroup: FormGroup;
   @Input() floatLabel: string;
   @Input() placeholder: string;
   @Input() hint: string;
   @Input() options: SelectListItem[];
-  @Input() controlId: string;
-  viewFormGroup: FormGroup = new FormGroup({});
-  control: AbstractControl;
+  @Input() control: AbstractControl;
+
+  viewControl: AbstractControl;
 
 
   options$: Observable<SelectListItem[]>;
   constructor() { }
 
   ngOnInit() {
-    this.control = this.formGroup.controls[this.controlId];
     if (!(this.control.value instanceof Array) || !this.control.value) {
       this.control.setValue([]);
     }
-    this.viewFormGroup.addControl(this.controlId, new FormControl());
 
-    this.options$ = this.viewFormGroup.controls[this.controlId].valueChanges
+    this.viewControl = new FormControl('');
+
+    this.options$ = this.viewControl.valueChanges
       .pipe(
         debounceTime(200),
-        switchMap(q => {
+        switchMap((q: string) => {
           if (!q) {
-            return of(
-              this.control.value.map((item) => ({
-                value: item.value,
-                viewValue: item.viewValue,
-                isSelected: true
-              })));
+            return of(this.displayOnEmpty());
           } else {
-            return of(this.options.filter(items => items.viewValue.toLocaleLowerCase().includes(q))
+            return of(this.options.filter(items => items.viewValue.toLocaleLowerCase().includes(q.toLocaleLowerCase()))
               .map(data => ({
                 value: data.value,
                 viewValue: data.viewValue,
@@ -61,7 +55,7 @@ export class AutocompleteDropdownComponent implements OnInit {
     setTimeout(() => {
       this.trigger.openPanel();
     });
-    const index = this.indexOfItem(e.option.value.value);
+    const index = this.indexOfItem(e.option.value);
     if (index >= 0) {
       e.option.value.isSelected = false;
       this.remove(index);
@@ -70,7 +64,7 @@ export class AutocompleteDropdownComponent implements OnInit {
       this.add(e.option.value);
     }
     this.control.markAsDirty();
-    this.viewFormGroup.controls[this.controlId].setValue(undefined);
+    this.viewControl.setValue(undefined);
     this.control.updateValueAndValidity();
   }
 
@@ -83,6 +77,25 @@ export class AutocompleteDropdownComponent implements OnInit {
     controlArr.splice(index, 1);
   }
 
+  displayOnEmpty(): SelectListItem[] {
+    return this.options.map(item => {
+      if (this.control.value.findIndex((controlVal: SelectListItem) => controlVal.viewValue === item.viewValue) > -1) {
+        item.isSelected = true;
+      } else {
+        item.isSelected = false;
+      }
+      return item;
+    }).sort((first, second) => {
+      if (first.isSelected && !second.isSelected) {
+        return -1;
+      } else if (!first.isSelected && second.isSelected) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  }
+
   indexOfItem(itemValue: any): number {
     return this.control.value.findIndex(arrayItem => arrayItem.value === itemValue);
   }
@@ -93,6 +106,6 @@ export class AutocompleteDropdownComponent implements OnInit {
 
   clearControl() {
     this.control.setValue([]);
-    this.viewFormGroup.controls[this.controlId].setValue(undefined);
+    this.viewControl.setValue(undefined);
   }
 }

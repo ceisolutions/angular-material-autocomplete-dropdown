@@ -1,6 +1,5 @@
 <cei-autocomplete-dropdown 
-[formGroup]="formGroup" 
-[controlId]="controlId" 
+[control]="formGroup.controls.dropdownOptions" 
 [options]="options"
 [placeholder]="placeholder"
 [floatLabel]="floatLabel"></cei-autocomplete-dropdown>
