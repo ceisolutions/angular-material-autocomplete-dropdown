@@ -1,13 +1,11 @@
-<cei-autocomplete-dropdown
-[control]="formGroup.controls.dropdownOptions"
-[options]="options"
-[placeholder]="placeholder"
-[floatLabel]="floatLabel"
-size="auto"></cei-autocomplete-dropdown>
-<div></div>
-<cei-autocomplete-dropdown
-[control]="formGroup.controls.observableOptions"
-[options]="options$"
-placeholder="This one has an observable source"
-[floatLabel]="floatLabel"
-size="xl"></cei-autocomplete-dropdown>
+<mat-toolbar>
+  <mat-toolbar-row>
+    <a routerLink="/">
+      <mat-icon>home</mat-icon>
+    </a>
+    <span class="fill-remaining-space"></span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div>
+  <router-outlet></router-outlet>
+</div>
