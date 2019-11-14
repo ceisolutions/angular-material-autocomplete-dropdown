@@ -1,0 +1,29 @@
+name: CI
+
+on: 
+  push:
+    branches:
+    - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install, Build, Test
+      run: |
+        npm install
+        npm test
+        npm build --prod
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        path: dist
+        name: angular-material-autocomplete-dropdown
