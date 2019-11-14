@@ -7,7 +7,7 @@ import { of, Observable } from 'rxjs';
 @Component({
   selector: 'cei-autocomplete-dropdown',
   templateUrl: './autocomplete-dropdown.component.html',
-  styles: ['./autocomplete-multiselect.component.scss']
+  styleUrls: ['./autocomplete-dropdown.component.scss']
 })
 export class AutocompleteDropdownComponent implements OnInit {
   @ViewChild('input', { static: false, read: MatAutocompleteTrigger }) trigger: MatAutocompleteTrigger;
@@ -16,6 +16,7 @@ export class AutocompleteDropdownComponent implements OnInit {
   @Input() hint: string;
   @Input() options: SelectListItem[];
   @Input() control: AbstractControl;
+  @Input() size: 's' | 'm' | 'l' | 'xl' | 'auto' = 'm';
 
   viewControl: AbstractControl;
 

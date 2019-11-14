@@ -1,0 +1,30 @@
+.clear-selections {
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+mat-form-field.mat-form-field {
+  &.sm {
+    width: 64px;
+  }
+  &.m {
+    width: 128px;
+  }
+  &.l {
+    width: 256px;
+  }
+  &.xl {
+    width: 512px;
+  }
+  &.auto {
+    width: auto;
+  }
+}
+
+.option {
+  font-size: 19px;
+
+  .mat-icon {
+      vertical-align: text-top;
+  }
+}
