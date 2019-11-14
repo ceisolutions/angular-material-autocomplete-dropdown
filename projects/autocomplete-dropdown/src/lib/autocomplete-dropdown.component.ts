@@ -17,7 +17,7 @@ export class AutocompleteDropdownComponent implements OnInit {
   @Input() options: SelectListItem[];
   @Input() control: AbstractControl;
   @Input() size: 's' | 'm' | 'l' | 'xl' | 'auto' = 'm';
-
+  @Input() strictComparison = false;
   viewControl: AbstractControl;
 
 
@@ -38,7 +38,7 @@ export class AutocompleteDropdownComponent implements OnInit {
           if (!q) {
             return of(this.displayOnEmpty());
           } else {
-            return of(this.options.filter(items => items.viewValue.toLocaleLowerCase().includes(q.toLocaleLowerCase()))
+            return of(this.search(q)
               .map(data => ({
                 value: data.value,
                 viewValue: data.viewValue,
@@ -95,6 +95,14 @@ export class AutocompleteDropdownComponent implements OnInit {
         return 0;
       }
     });
+  }
+
+  search(searchTerm: string): SelectListItem[] {
+    if (this.strictComparison === true) {
+      return this.options.filter(items => items.viewValue.includes(searchTerm));
+    } else {
+      return this.options.filter(items => items.viewValue.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()));
+    }
   }
 
   indexOfItem(itemValue: any): number {
