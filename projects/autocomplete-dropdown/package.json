@@ -5,6 +5,7 @@
     "@angular/common": "^8.3.18",
     "@angular/core": "^8.3.18",
     "@angular/material": "^8.2.3",
-    "rxjs": "~6.5.3"
+    "rxjs": "~6.5.3",
+    "lodash": "^4.17.15"
   }
 }

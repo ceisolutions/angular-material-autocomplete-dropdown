@@ -4,6 +4,7 @@ import { AbstractControl, FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
+import * as _ from 'lodash';
 @Component({
   selector: 'cei-autocomplete-dropdown',
   templateUrl: './autocomplete-dropdown.component.html',
@@ -106,7 +107,7 @@ export class AutocompleteDropdownComponent implements OnInit {
   }
 
   indexOfItem(itemValue: any): number {
-    return this.control.value.findIndex(arrayItem => arrayItem.value === itemValue);
+    return this.control.value.findIndex(arrayItem => _.isEqual(arrayItem, itemValue));
   }
 
   autocompleteDisplay(option?: SelectListItem): string | undefined {
