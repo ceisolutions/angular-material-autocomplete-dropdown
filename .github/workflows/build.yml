@@ -20,7 +20,6 @@ jobs:
     - name: Install, Build, Test
       run: |
         npm install
-        npm test
         npm build --prod
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
