@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { SelectListItem } from './select-list-item';
 import { AbstractControl, FormControl } from '@angular/forms';
 import { MatAutocompleteTrigger, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { debounceTime, switchMap } from 'rxjs/operators';
+import { debounceTime, switchMap, startWith, map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 import * as _ from 'lodash';
 @Component({
@@ -15,7 +15,7 @@ export class AutocompleteDropdownComponent implements OnInit {
   @Input() floatLabel: string;
   @Input() placeholder: string;
   @Input() hint: string;
-  @Input() options: SelectListItem[];
+  @Input() options: SelectListItem[] | Observable<SelectListItem[]>;
   @Input() control: AbstractControl;
   @Input() size: 's' | 'm' | 'l' | 'xl' | 'auto' = 'm';
   @Input() strictComparison = false;
@@ -32,14 +32,42 @@ export class AutocompleteDropdownComponent implements OnInit {
 
     this.viewControl = new FormControl('');
 
-    this.options$ = this.viewControl.valueChanges
+    if (this.options instanceof Observable) {
+      this.options$ = this.viewControl.valueChanges
       .pipe(
+        startWith(''),
+        debounceTime(200),
+        switchMap((query: string) => {
+          const optionsObservable = this.options as Observable<SelectListItem[]>;
+
+          if (!query) {
+            return optionsObservable.pipe(
+              map(options => this.displayOnEmpty(options))
+            );
+          } else {
+            return optionsObservable.pipe(
+              map(options => this.search(query, options)
+              .map(data => ({
+                value: data.value,
+                viewValue: data.viewValue,
+                isSelected: this.indexOfItem(data) >= 0
+              })))
+            );
+          }
+        })
+      );
+    } else if (this.options instanceof Array) {
+      const optionsArr: SelectListItem[] = this.options as SelectListItem[];
+
+      this.options$ = this.viewControl.valueChanges
+      .pipe(
+        startWith(''),
         debounceTime(200),
         switchMap((q: string) => {
           if (!q) {
-            return of(this.displayOnEmpty());
+            return of(this.displayOnEmpty(optionsArr));
           } else {
-            return of(this.search(q)
+            return of(this.search(q, optionsArr)
               .map(data => ({
                 value: data.value,
                 viewValue: data.viewValue,
@@ -48,6 +76,7 @@ export class AutocompleteDropdownComponent implements OnInit {
           }
         })
       );
+    }
   }
 
   onOptionSelected(e: MatAutocompleteSelectedEvent) {
@@ -79,8 +108,8 @@ export class AutocompleteDropdownComponent implements OnInit {
     controlArr.splice(index, 1);
   }
 
-  displayOnEmpty(): SelectListItem[] {
-    return this.options.map(item => {
+  displayOnEmpty(options: SelectListItem[]): SelectListItem[] {
+    return options.map(item => {
       if (this.control.value.findIndex((controlVal: SelectListItem) => controlVal.viewValue === item.viewValue) > -1) {
         item.isSelected = true;
       } else {
@@ -98,11 +127,11 @@ export class AutocompleteDropdownComponent implements OnInit {
     });
   }
 
-  search(searchTerm: string): SelectListItem[] {
+  search(searchTerm: string, options: SelectListItem[]): SelectListItem[] {
     if (this.strictComparison === true) {
-      return this.options.filter(items => items.viewValue.includes(searchTerm));
+      return options.filter(items => items.viewValue.includes(searchTerm));
     } else {
-      return this.options.filter(items => items.viewValue.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()));
+      return options.filter(items => items.viewValue.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()));
     }
   }
 

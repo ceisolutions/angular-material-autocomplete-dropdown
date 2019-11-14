@@ -4,3 +4,10 @@
 [placeholder]="placeholder"
 [floatLabel]="floatLabel"
 size="auto"></cei-autocomplete-dropdown>
+<div></div>
+<cei-autocomplete-dropdown
+[control]="formGroup.controls.observableOptions"
+[options]="options$"
+placeholder="This one has an observable source"
+[floatLabel]="floatLabel"
+size="xl"></cei-autocomplete-dropdown>

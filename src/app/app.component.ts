@@ -1,6 +1,7 @@
 import { FormGroup, FormControl } from '@angular/forms';
 import { SelectListItem } from './../../projects/autocomplete-dropdown/src/lib/select-list-item';
 import { Component } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,8 @@ import { Component } from '@angular/core';
 export class AppComponent {
   formGroup: FormGroup = new FormGroup(
     {
-      dropdownOptions: new FormControl()
+      dropdownOptions: new FormControl(),
+      observableOptions: new FormControl()
     }
   );
 
@@ -45,4 +47,33 @@ export class AppComponent {
       isSelected: false
     }
   ];
+
+  options$: Observable<SelectListItem[]> = of([
+    {
+      value: 'Cantoloupe',
+      viewValue: 'Green Fruit',
+      isSelected: false
+    },
+    {
+      value: 'Banana',
+      viewValue: 'Yellow Fruit',
+      isSelected: false
+    },
+    {
+      value: 'Apple',
+      viewValue: 'Red fruit',
+      isSelected: false
+    },
+    {
+      value: 'Grape',
+      viewValue: 'Purple fruit',
+      isSelected: false
+    },
+    {
+      value: 'Orange',
+      viewValue: 'Orange fruit',
+      isSelected: false
+    }
+  ]);
+
 }
