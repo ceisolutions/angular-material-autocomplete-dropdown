@@ -1,4 +1,4 @@
-name: CI
+name: Build Library
 
 on: 
   push:
@@ -20,7 +20,7 @@ jobs:
     - name: Install, Build, Test
       run: |
         npm install
-        npm build --prod
+        npm run build-lib
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
