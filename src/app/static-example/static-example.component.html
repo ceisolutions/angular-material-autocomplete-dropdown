@@ -1,0 +1,31 @@
+<div>
+  <h2>This is an example of the dropdown box with an static array source</h2>
+</div>
+
+<div class="example-container">
+  <cei-autocomplete-dropdown [control]="formGroup.controls.observableOptions" [options]="options"
+    placeholder="This one has an observable source" [floatLabel]="floatLabel" size="xl"></cei-autocomplete-dropdown>
+
+  <div class="form-values">
+    The current value in the form is:
+    <div *ngIf="controlOneValues | async; let controlValues;">
+      <div *ngFor="let value of controlValues; let index = index;" class="value">
+        Value {{index + 1}}: {{value | json}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="example-container">
+  <cei-autocomplete-dropdown [control]="formGroup.controls.observableOptionsWithObjects" [options]="optionsWithObjectViewValue"
+    placeholder="This one has an observable source and an object value" [floatLabel]="floatLabel" size="xl"></cei-autocomplete-dropdown>
+
+  <div class="form-values">
+    The current value in the form is:
+    <div *ngIf="controlTwoValues | async; let controlValues;">
+      <div *ngFor="let value of controlValues; let index = index;" class="value">
+        Value {{index + 1}}: {{value | json}}
+      </div>
+    </div>
+  </div>
+</div>

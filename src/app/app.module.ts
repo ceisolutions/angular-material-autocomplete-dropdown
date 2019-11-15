@@ -10,12 +10,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ObservableOptionsExampleComponent } from './observable-options-example/observable-options-example.component';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { StaticExampleComponent } from './static-example/static-example.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ObservableOptionsExampleComponent,
-    HomeComponent
+    HomeComponent,
+    StaticExampleComponent
   ],
   imports: [
     CommonModule,

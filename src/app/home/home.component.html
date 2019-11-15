@@ -1,3 +1,15 @@
 <h2>Welcome to the autocomplete-dropdown example page!</h2>
 
-<a mat-button  [routerLink]="['/observable']" routerLinkActive="router-link-active" >View Observable Example</a>
+<div class="description">
+  <h4>So, what is it?</h4>
+  <div class="library-description">
+    Autocomplete Multidropdown is an Angular Material component designed to allow a user to use an autocomplete text
+    field with a Material multiselect list. This allows the user to search for, and select, multiple values from a
+    list of data. This library is built using Angular Reactive Forms, allowing elements to be created and managed the same way you
+    typically manage reactive forms.
+  </div>
+</div>
+<div class="button-container">
+  <a mat-button class="example-button" [routerLink]="['/static']">View Static Example</a>
+  <a mat-button class="example-button" [routerLink]="['/observable']">View Observable Example</a>
+</div>
