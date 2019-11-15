@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { SelectListItem } from 'projects/autocomplete-dropdown/src/lib/select-list-item';
 import { FormGroup, FormControl } from '@angular/forms';
-import { map } from 'rxjs/internal/operators/map';
-import { JsonPipe } from '@angular/common';
-import { startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-observable-options-example',
@@ -12,10 +9,12 @@ import { startWith } from 'rxjs/operators';
   styleUrls: ['./observable-options-example.component.scss']
 })
 export class ObservableOptionsExampleComponent implements OnInit {
-  formValues: Observable<string>;
+  controlOneValues: Observable<string>;
+  controlTwoValues: Observable<string>;
   formGroup: FormGroup = new FormGroup(
     {
-      observableOptions: new FormControl()
+      observableOptions: new FormControl(),
+      observableOptionsWithObjects: new FormControl()
     }
   );
 
@@ -49,10 +48,40 @@ export class ObservableOptionsExampleComponent implements OnInit {
       isSelected: false
     }
   ]);
+
+  optionsWithObjectViewValue$: Observable<SelectListItem[]> = of([
+    {
+      value: {name: 'Cantaloupe', color: 'Green'},
+      viewValue: 'Green Fruit',
+      isSelected: false
+    },
+    {
+      value: {name: 'Banana', color: 'Yellow'},
+      viewValue: 'Yellow Fruit',
+      isSelected: false
+    },
+    {
+      value: {name: 'Apple', color: 'Red'},
+      viewValue: 'Red fruit',
+      isSelected: false
+    },
+    {
+      value: {name: 'Grape', color: 'Purple'},
+      viewValue: 'Purple fruit',
+      isSelected: false
+    },
+    {
+      value: {name: 'Orange', color: 'Orange'},
+      viewValue: 'Orange fruit',
+      isSelected: false
+    }
+  ]);
+
   constructor() { }
 
   ngOnInit() {
-    this.formValues = this.formGroup.controls.observableOptions.valueChanges;
+    this.controlOneValues = this.formGroup.controls.observableOptions.valueChanges;
+    this.controlTwoValues = this.formGroup.controls.observableOptionsWithObjects.valueChanges;
   }
 
 }
