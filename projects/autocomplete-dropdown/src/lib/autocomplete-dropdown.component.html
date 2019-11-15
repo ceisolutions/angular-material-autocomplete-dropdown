@@ -1,5 +1,6 @@
-<mat-form-field class="form-field" [floatLabel]="floatLabel" [class.s]="size === 's'" [class.m]="size === 'm'"
-  [class.l]="size === 'l'" [class.xl]="size === 'xl'" [class.auto]="size === 'auto'">
+<mat-form-field class="form-field" [floatLabel]="floatLabel" [class.s]="config.size === 's'"
+  [class.m]="config.size === 'm'" [class.l]="config.size === 'l'" [class.xl]="config.size === 'xl'"
+  [class.auto]="config.size === 'auto'">
 
   <mat-label>{{placeholder}}</mat-label>
   <input #input type="text" matInput [matAutocomplete]="autoCompleteInput" [formControl]="viewControl" />

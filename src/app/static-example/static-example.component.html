@@ -4,7 +4,8 @@
 
 <div class="example-container">
   <cei-autocomplete-dropdown [control]="formGroup.controls.observableOptions" [options]="options"
-    placeholder="This one has an observable source" [floatLabel]="floatLabel" size="xl"></cei-autocomplete-dropdown>
+    placeholder="This one has an observable source" [floatLabel]="floatLabel" [config]="dropdownConfig">
+  </cei-autocomplete-dropdown>
 
   <div class="form-values">
     The current value in the form is:
@@ -17,8 +18,9 @@
 </div>
 
 <div class="example-container">
-  <cei-autocomplete-dropdown [control]="formGroup.controls.observableOptionsWithObjects" [options]="optionsWithObjectViewValue"
-    placeholder="This one has an observable source and an object value" [floatLabel]="floatLabel" size="xl"></cei-autocomplete-dropdown>
+  <cei-autocomplete-dropdown [control]="formGroup.controls.observableOptionsWithObjects"
+    [options]="optionsWithObjectViewValue" placeholder="This one has an observable source and an object value"
+    [floatLabel]="floatLabel" [config]="dropdownConfig"></cei-autocomplete-dropdown>
 
   <div class="form-values">
     The current value in the form is:

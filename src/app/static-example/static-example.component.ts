@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SelectListItem } from 'autocomplete-dropdown/lib/select-list-item';
 import { FormControl, FormGroup } from '@angular/forms';
+import { DropdownConfig } from 'projects/autocomplete-dropdown/src/lib/dropdown-config';
 
 @Component({
   selector: 'app-static-example',
@@ -17,6 +18,10 @@ export class StaticExampleComponent implements OnInit {
       observableOptionsWithObjects: new FormControl()
     }
   );
+
+  dropdownConfig: DropdownConfig = {
+    size: 'xl'
+  };
 
   floatLabel = 'Search for a color of fruit';
   placeholder = 'Find a fruit!';

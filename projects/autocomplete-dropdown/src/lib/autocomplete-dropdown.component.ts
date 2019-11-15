@@ -5,6 +5,7 @@ import { MatAutocompleteTrigger, MatAutocompleteSelectedEvent } from '@angular/m
 import { debounceTime, switchMap, startWith, map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 import * as _ from 'lodash';
+import { DropdownConfig } from './dropdown-config';
 @Component({
   selector: 'cei-autocomplete-dropdown',
   templateUrl: './autocomplete-dropdown.component.html',
@@ -17,8 +18,10 @@ export class AutocompleteDropdownComponent implements OnInit {
   @Input() hint: string;
   @Input() options: SelectListItem[] | Observable<SelectListItem[]>;
   @Input() control: AbstractControl;
-  @Input() size: 's' | 'm' | 'l' | 'xl' | 'auto' = 'm';
-  @Input() strictComparison = false;
+  @Input() config: DropdownConfig = {
+    size: 'm',
+    matchCase: false
+  };
   viewControl: AbstractControl;
 
 
@@ -128,7 +131,7 @@ export class AutocompleteDropdownComponent implements OnInit {
   }
 
   search(searchTerm: string, options: SelectListItem[]): SelectListItem[] {
-    if (this.strictComparison === true) {
+    if (this.config.matchCase === true) {
       return options.filter(items => items.viewValue.includes(searchTerm));
     } else {
       return options.filter(items => items.viewValue.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()));
